@@ -22,6 +22,8 @@ namespace mv_impinj
     }
     public class Report
     {
+        public static string Prefix = "epc:";
+
         private string _tagId;
         [XmlElement("tagType")]
         public string TagType = "PASSIVE";
@@ -29,7 +31,7 @@ namespace mv_impinj
         [XmlElement("tagId")]
         public string TagId
         {
-            get { return "epc:" + _tagId; }
+            get { return Prefix + _tagId; }
             set { _tagId = value;  }
         }
 

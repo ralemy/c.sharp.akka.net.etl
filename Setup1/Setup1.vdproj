@@ -892,12 +892,12 @@
             "Object" = "8:_4B5EDE7A5B8B4B96B761E34D306C0677"
             "FileType" = "3:2"
             "InstallAction" = "3:1"
-            "Arguments" = "8:ITEMSENSEPASSWORD MOBILEVIEWZONEMAP ITEMSENSEURL ITEMSENSEUSER AMQPNOISETIMER HTTPSCERTIFICATES MOBILEVIEWBASE"
+            "Arguments" = "8:\"MOBILEVIEWPREFIX\" \"ITEMSENSEPASSWORD\" \"MOBILEVIEWZONEMAP\" \"ITEMSENSEURL\" \"ITEMSENSEUSER\" \"AMQPNOISETIMER\" \"HTTPSCERTIFICATES\" \"MOBILEVIEWBASE\""
             "EntryPoint" = "8:"
             "Sequence" = "3:1"
             "Identifier" = "8:_84D05EBF_753F_4181_8A1C_928C5AD43B23"
             "InstallerClass" = "11:TRUE"
-            "CustomActionData" = "8:/AmqpNoiseTimer=[AMQPNOISETIMER] /HttpsCertificates=[HTTPSCERTIFICATES] /MobileViewBase=[MOBILEVIEWBASE] /ItemSensePassword=[ITEMSENSEPASSWORD] /MobileViewZoneMap=[MOBILEVIEWZONEMAP] /ItemSenseUrl=[ITEMSENSEURL] /ItemSenseUser=[ITEMSENSEUSER]"
+            "CustomActionData" = "8:/MobileViewPrefix=\"[MOBILEVIEWPREFIX]\" /AmqpNoiseTimer=\"[AMQPNOISETIMER]\" /HttpsCertificates=\"[HTTPSCERTIFICATES]\" /MobileViewBase=\"[MOBILEVIEWBASE]\" /ItemSensePassword=\"[ITEMSENSEPASSWORD]\" /MobileViewZoneMap=\"[MOBILEVIEWZONEMAP]\" /ItemSenseUrl=\"[ITEMSENSEURL]\" /ItemSenseUser=\"[ITEMSENSEUSER]\""
             }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_B22A4AC8AC2F42EDB3A099692F7C2A16"
             {
@@ -2864,7 +2864,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Impinj Connector for Mobile View"
         "ProductCode" = "8:{CE69E39A-92CD-4C19-B2A3-F4D566E7D82C}"
-        "PackageCode" = "8:{BE48D837-818A-457F-91A0-27D18AD9A906}"
+        "PackageCode" = "8:{D82A734A-D41A-4E9D-B925-E43B66F99B49}"
         "UpgradeCode" = "8:{2B6EBEC4-4B66-4A7A-84CD-78182B403DFA}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -3458,8 +3458,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:#1249"
+                            "Setting" = "3:2"
+                            "Value" = "8:Prefix For Passive Tags"
                             "DefaultValue" = "8:#1249"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -3472,7 +3472,7 @@
                             "ContextData" = "8:Public"
                             "Attributes" = "3:2"
                             "Setting" = "3:2"
-                            "Value" = "8:EDITC4"
+                            "Value" = "8:MOBILEVIEWPREFIX"
                             "DefaultValue" = "8:EDITC4"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -3484,8 +3484,8 @@
                             "Type" = "3:3"
                             "ContextData" = "8:"
                             "Attributes" = "3:0"
-                            "Setting" = "3:1"
-                            "Value" = "8:"
+                            "Setting" = "3:2"
+                            "Value" = "8:epc:"
                             "DefaultValue" = "8:"
                             "UsePlugInResources" = "11:TRUE"
                             }
@@ -3498,7 +3498,7 @@
                             "ContextData" = "8:1;True=1;False=0"
                             "Attributes" = "3:0"
                             "Setting" = "3:0"
-                            "Value" = "3:0"
+                            "Value" = "3:1"
                             "DefaultValue" = "3:1"
                             "UsePlugInResources" = "11:TRUE"
                             }

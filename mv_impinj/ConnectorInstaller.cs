@@ -14,6 +14,8 @@ namespace mv_impinj
     [RunInstaller(true)]
     public sealed partial class ConnectorInstaller : System.ServiceProcess.ServiceInstaller
     {
+       private readonly EventLog _logger = new EventLog("Application", ".", "mv_impinj_installer");
+
 
         public ConnectorInstaller()
         {
@@ -27,8 +29,7 @@ namespace mv_impinj
         public override void Install(System.Collections.IDictionary stateSaver)
         {
             base.Install(stateSaver);
-            Context.LogMessage("some messae in overriden installer");
-            EventLog.WriteEntry("Mysource", "mymessage in eventer");
+            _logger.WriteEntry("Installing Connector Services",EventLogEntryType.Information,10,2);
             var propertyKeys = getPropertyKeys();
             var doc = new XmlDocument();
             var appConfigPath = LoadConfigurattion(doc);
@@ -38,15 +39,22 @@ namespace mv_impinj
             var timer = 0;
             if(int.TryParse(Context.Parameters["AmqpNoiseTimer"], out timer))
                 SetPropertyValue(appSettingsNode,"AmqpNoiseTimer",(timer*1000).ToString());
-            
+            else
+                _logger.WriteEntry($"Supplied AMQP Noise Timer value ({Context.Parameters["AmqpNoiseTimer"]}) is not parsable as an integer. falling back on the default of 2 seconds",EventLogEntryType.Warning,404,101);
             doc.Save(appConfigPath);
 
         }
         private List<string> getPropertyKeys()
         {
-            return new List<string> { "ItemSenseUrl", "ItemSenseUser", "ItemSensePassword","MobileViewZoneMap", "MobileViewBase", "HttpsCertificates" };
+            return new List<string> { "ItemSenseUrl", "ItemSenseUser", "ItemSensePassword","MobileViewZoneMap", "MobileViewBase", "HttpsCertificates", "MobileViewPrefix" };
         }
 
+        /// <summary>
+        /// obi
+        /// </summary>
+        /// <param name="appSettingsNode"></param>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
         private void SetPropertyValue(XmlNode appSettingsNode, string key, string value)
         {
             var node =

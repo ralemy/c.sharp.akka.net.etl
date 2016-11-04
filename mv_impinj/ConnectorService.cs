@@ -13,6 +13,8 @@ using Akka;
 
 namespace mv_impinj
 {
+   
+
     partial class ConnectorService : ServiceBase
     {
         public delegate void MsgListener(string amqpMsg);
@@ -24,6 +26,7 @@ namespace mv_impinj
             var appSettings = ConfigurationManager.AppSettings;
             _itemSense = new ItemSenseProxy(appSettings["ItemSenseUrl"], appSettings["ItemSenseUser"],
                 appSettings["ItemSensePassword"]);
+            Report.Prefix = appSettings["MobileViewPrefix"];
             var actorSystem = ActorSystem.Create("PI2MV");
             var reporter = actorSystem.ActorOf(TagReporter.props(appSettings), "TagReporter");
             _itemSense.SetLocations(reporter, appSettings["MobileViewZoneMap"]);
