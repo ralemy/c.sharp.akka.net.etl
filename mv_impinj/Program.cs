@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Configuration.Install;
 using System.ServiceProcess;
 using System.Xml;
@@ -35,11 +36,9 @@ namespace mv_impinj
                             console = true;
                             break;
                         case "-t":
-                            var d = Convert.ToDateTime("2016-11-03T02:02:24Z");
-                            var s = d.AddMinutes(-1222.5);
-                            var i = new ItemSenseProxy("http://rec30.itemsense.impinj.com", "admin","admindefault");
-                            var j = i.GetRecentItems(s.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ"));
-                            Console.WriteLine("count "  + j.Count );
+                            Report.Prefix = "urn:epc:";
+                            var d = new XmlMarshaller();
+                            Console.WriteLine(d.MarshallToReport("somelocation","sometagid"));
                             return 0;
                         default:
                             Console.Error.WriteLine
