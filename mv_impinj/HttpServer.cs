@@ -150,6 +150,10 @@ namespace mv_impinj
 
         public void SendResponse(HttpListenerResponse cResponse, Bitmap buffer, ImageFormat mime)
         {
+            //            cResponse.Headers[HttpRequestHeader.CacheControl] = "no-cache";
+            //            cResponse.Headers[HttpRequestHeader.Pragma] = "no-cache";
+            cResponse.AddHeader("Cache-Control", "no-cache");
+            cResponse.AddHeader("Pragma", "no-cache");
             buffer.Save(cResponse.OutputStream, mime);
             cResponse.Close();
         }
@@ -161,6 +165,10 @@ namespace mv_impinj
 
         public void SendResponse(HttpListenerResponse response, byte[] buffer)
         {
+            //            response.Headers[HttpRequestHeader.CacheControl] = "no-cache";
+            //            response.Headers[HttpRequestHeader.Pragma] = "no-cache";
+            response.AddHeader("Cache-Control", "no-cache");
+            response.AddHeader("Pragma", "no-cache");
             var output = response.OutputStream;
             response.ContentLength64 = buffer.Length;
             output.Write(buffer, 0, buffer.Length);
