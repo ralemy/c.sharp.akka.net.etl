@@ -5,7 +5,7 @@ using Akka.Actor;
 
 namespace mv_impinj
 {
-    internal class TagManager : ReceiveActor
+    internal class TagBroker : ReceiveActor
     {
         readonly Dictionary<string, IActorRef> _tagProcessors = new Dictionary<string, IActorRef>();
         private readonly int _noiseTimer;
@@ -13,7 +13,7 @@ namespace mv_impinj
 
 
 
-        public TagManager(int amqpNoiseTimer)
+        public TagBroker(int amqpNoiseTimer)
         {
             _noiseTimer = amqpNoiseTimer;
             var processor = new Action<IMobileViewReportable>(m => GetEpcProcessor(m.Epc).Tell(m, ActorRefs.NoSender));
@@ -39,7 +39,7 @@ namespace mv_impinj
 
         public static Props Props(NameValueCollection appSettings)
         {
-            return Akka.Actor.Props.Create<TagManager>(int.Parse(appSettings["AmqpNoiseTimer"]));
+            return Akka.Actor.Props.Create<TagBroker>(int.Parse(appSettings["AmqpNoiseTimer"]));
         }
     }
 }

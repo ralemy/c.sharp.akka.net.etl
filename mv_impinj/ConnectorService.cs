@@ -66,9 +66,9 @@ namespace mv_impinj
                         return $"No report available for {key}";
                 }
             }
-            catch (System.TimeoutException e)
+            catch (System.TimeoutException)
             {
-                return "Reporter is not responding. check connection to Mobile View";
+                return "Reporter is not responding. check connection to Mobile View ";
             }
             catch (Exception e)
             {

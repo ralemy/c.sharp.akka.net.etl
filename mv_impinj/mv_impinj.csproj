@@ -115,7 +115,7 @@
     <Compile Include="HttpServer.cs" />
     <Compile Include="ItemSenseDataStructures.cs" />
     <Compile Include="ItemSenseProxy.cs" />
-    <Compile Include="LoggerActor.cs" />
+    <Compile Include="TagLogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -125,7 +125,7 @@
     </Compile>
     <Compile Include="RabbitQueue.cs" />
     <Compile Include="StatusPage.cs" />
-    <Compile Include="TagManager.cs" />
+    <Compile Include="TagBroker.cs" />
     <Compile Include="TagProcessor.cs" />
     <Compile Include="TagReconciler.cs" />
     <Compile Include="TagReporter.cs" />

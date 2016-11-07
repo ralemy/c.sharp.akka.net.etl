@@ -12,7 +12,7 @@ namespace mv_impinj
         {
             var minuteTicks = TimeSpan.FromSeconds(heartbeat).Ticks;
             var history = 15 + (2*heartbeat);
-            var tagManager = Context.ActorSelection("/user/TagManager");
+            var tagBroker = Context.ActorSelection("/user/TagBroker");
             Receive<string>(
                 message =>
                 {
@@ -22,7 +22,7 @@ namespace mv_impinj
                     foreach (var tag in tags
                         .Where(t => now - t.Time.Ticks > minuteTicks))
                         tag.Zone = "ABSENT";
-                    tagManager.Tell(tags, ActorRefs.NoSender);
+                    tagBroker.Tell(tags, ActorRefs.NoSender);
                 });
         }
 

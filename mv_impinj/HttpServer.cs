@@ -41,12 +41,12 @@ namespace mv_impinj
     {
         private readonly int _port;
         private readonly ConfigPage _configPage;
+        private readonly ConnectorService _connectorService;
 
 
         private HttpListener _listener;
         private Thread _server;
         public NameValueCollection AppSettings;
-        private ConnectorService _connectorService;
         public string FlashMessage;
         public bool ConfigSaved;
         private readonly StatusPage _statusPage;
@@ -76,19 +76,18 @@ namespace mv_impinj
 
         private void Listen()
         {
+            _listener = new HttpListener();
+            _listener.Prefixes.Add($"http://localhost:{_port}/");
+            _listener.Start();
             try
             {
-                _listener = new HttpListener();
-                _listener.Prefixes.Add($"http://localhost:{_port}/");
-                _listener.Start();
                 while (true)
                     Process(_listener.GetContext());
             }
-            catch (Exception e)
+            catch
             {
-                Logger.WriteEntry(e.Message, EventLogEntryType.Error, 403, 101);
+                // ignored
             }
-
         }
 
         protected virtual void Process(HttpListenerContext c)

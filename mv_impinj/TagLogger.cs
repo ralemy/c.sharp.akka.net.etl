@@ -4,9 +4,9 @@ using Akka.Actor;
 
 namespace mv_impinj
 {
-    internal class LoggerActor:ReceiveActor
+    internal class TagLogger:ReceiveActor
     {
-        public LoggerActor(EventLog logger)
+        public TagLogger(EventLog logger)
         {
             Receive<WebException>(message =>
             {
@@ -20,7 +20,7 @@ namespace mv_impinj
         }
         public static Props Props(EventLog eventLog)
         {
-            return Akka.Actor.Props.Create<LoggerActor>(eventLog);
+            return Akka.Actor.Props.Create<TagLogger>(eventLog);
         }
     }
 }
