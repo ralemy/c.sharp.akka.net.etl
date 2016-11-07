@@ -18,9 +18,9 @@ namespace mv_impinj
                 logger.WriteEntry(message.ToString(),EventLogEntryType.Information,2,2);
             });
         }
-        public static Props props(EventLog eventLog)
+        public static Props Props(EventLog eventLog)
         {
-            return Props.Create<LoggerActor>(eventLog);
+            return Akka.Actor.Props.Create<LoggerActor>(eventLog);
         }
     }
 }

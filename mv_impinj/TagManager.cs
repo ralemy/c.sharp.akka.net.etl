@@ -5,35 +5,41 @@ using Akka.Actor;
 
 namespace mv_impinj
 {
-    internal class TagManager:ReceiveActor
+    internal class TagManager : ReceiveActor
     {
-        Dictionary<string, IActorRef> tagProcessors = new Dictionary<string, IActorRef>();
+        readonly Dictionary<string, IActorRef> _tagProcessors = new Dictionary<string, IActorRef>();
         private readonly int _noiseTimer;
+
+
+
 
         public TagManager(int amqpNoiseTimer)
         {
-            this._noiseTimer = amqpNoiseTimer;           
-            Receive<AmqpMessageDetails>(message =>
-            {
-                getEpcProcessor(message.Epc).Tell(message,ActorRefs.NoSender);
-            });
-            Receive<List<ImpinjItem>>(message =>
-            {
-                message.ForEach(m =>
-                {
-                    getEpcProcessor(m.Epc).Tell(m, ActorRefs.NoSender);
-                });
-            });
+            _noiseTimer = amqpNoiseTimer;
+            var processor = new Action<IMobileViewReportable>(m => GetEpcProcessor(m.Epc).Tell(m, ActorRefs.NoSender));
+
+            Receive<AmqpMessage>(processor);
+            Receive<List<ImpinjItem>>(message => message.ForEach(m => processor(m)));
         }
-        private IActorRef getEpcProcessor(string epc)
+
+
+
+
+
+        private IActorRef GetEpcProcessor(string epc)
         {
-            if (!tagProcessors.ContainsKey(epc))
-                tagProcessors.Add(epc, Context.ActorOf(TagProcessor.props(epc,_noiseTimer), epc));
-            return tagProcessors[epc];
+            if (!_tagProcessors.ContainsKey(epc))
+                _tagProcessors.Add(epc, Context.ActorOf(TagProcessor.Props(epc, _noiseTimer), epc));
+            return _tagProcessors[epc];
         }
-        public static Props props(NameValueCollection appSettings)
+
+
+
+
+
+        public static Props Props(NameValueCollection appSettings)
         {
-           return Props.Create<TagManager>(int.Parse(appSettings["AmqpNoiseTimer"]));
+            return Akka.Actor.Props.Create<TagManager>(int.Parse(appSettings["AmqpNoiseTimer"]));
         }
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Configuration.Install;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
-using System.Threading.Tasks;
 using System.Xml;
 
 namespace mv_impinj
@@ -23,64 +21,93 @@ namespace mv_impinj
                 "Connector Service to send RAIN RFID data from Impinj platform to MobileView Generic Gateway";
             this.DisplayName = "Impinj Connector for MobileView";
             this.ServiceName = "mv_impinj_connector";
-            this.StartType = System.ServiceProcess.ServiceStartMode.Manual;
+            this.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
         }
 
         public override void Install(System.Collections.IDictionary stateSaver)
         {
             base.Install(stateSaver);
+
             _logger.WriteEntry("Installing Connector Services",EventLogEntryType.Information,10,2);
-            var propertyKeys = getPropertyKeys();
+
+            var propertyDictionary = CreatePropertyDictionary(getPropertyKeys(), Context.Parameters);
+
+            UpdateProperties(propertyDictionary, Context.Parameters["assemblypath"]);
+        }
+
+        private static void UpdateProperties(StringDictionary propertyDictionary, string assemblyPath)
+        {
             var doc = new XmlDocument();
-            var appConfigPath = LoadConfigurattion(doc);
+            var appConfigPath = LoadConfigurattion(doc,assemblyPath);
             var appSettingsNode = FindAppSettingsNode(doc);
             if (appSettingsNode != null)
-                propertyKeys.ForEach(key => SetPropertyValue(appSettingsNode, key, Context.Parameters[key]));
-            var timer = 0;
-            if(int.TryParse(Context.Parameters["AmqpNoiseTimer"], out timer))
-                SetPropertyValue(appSettingsNode,"AmqpNoiseTimer",(timer*1000).ToString());
-            else
-                _logger.WriteEntry($"Supplied AMQP Noise Timer value ({Context.Parameters["AmqpNoiseTimer"]}) is not parsable as an integer. falling back on the default of 2 seconds",EventLogEntryType.Warning,404,101);
+                foreach (var key in propertyDictionary.Keys)
+                {
+                    SetPropertyValue(appSettingsNode, key.ToString(), propertyDictionary[key.ToString()]);
+                }
             doc.Save(appConfigPath);
-
         }
+
+        private StringDictionary CreatePropertyDictionary(List<string> keys, StringDictionary dict)
+        {
+            var result = new StringDictionary();
+            int port;
+            keys.ForEach(key =>
+            {
+                switch (key)
+                {
+                    case "ConfigurationPort":
+                        if(dict.ContainsKey(key))
+                            if(int.TryParse(dict[key],out port))
+                                if(port>0 && port<65535)
+                                   result.Add(key,dict[key]);
+                        break;
+                    default:
+                        result.Add(key, dict.ContainsKey(key) ? dict[key] : "");
+                        break;
+                }
+            });
+            return result;
+        }
+
         private List<string> getPropertyKeys()
         {
-            return new List<string> { "ItemSenseUrl", "ItemSenseUser", "ItemSensePassword","MobileViewZoneMap", "MobileViewBase", "HttpsCertificates", "MobileViewPrefix" };
+            return new List<string> { "ConfigurationPort" };
         }
 
-        /// <summary>
-        /// obi
-        /// </summary>
-        /// <param name="appSettingsNode"></param>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        private void SetPropertyValue(XmlNode appSettingsNode, string key, string value)
+        private static void SetPropertyValue(XmlNode appSettingsNode, string key, string value)
         {
             var node =
                 appSettingsNode.ChildNodes.Cast<XmlNode>()
-                    .FirstOrDefault(n => n?.Attributes?["key"] != null && n.Attributes["key"].Value == key);
+                    .FirstOrDefault(n => n?.Attributes?["key"] != null && n.Attributes["key"].Value.ToLower() == key);
             if (node?.Attributes?["value"] != null) node.Attributes["value"].Value = value;
         }
 
-        private XmlNode FindChild(XmlNode n, string tagName)
+        private static XmlNode FindChild(XmlNode n, string tagName)
         {
             return n.ChildNodes.Cast<XmlNode>().FirstOrDefault(nChildNode => nChildNode.Name.Equals(tagName));
         }
 
-        private XmlNode FindAppSettingsNode(XmlDocument doc)
+        private static XmlNode FindAppSettingsNode(XmlDocument doc)
         {
             return FindChild(doc.DocumentElement, "appSettings");
         }
 
-        private string LoadConfigurattion(XmlDocument doc)
+        private static string LoadConfigurattion(XmlDocument doc, string assemblyPath)
         {
-            string assemblypath = Context.Parameters["assemblypath"];
-            string appConfigPath = assemblypath + ".config";
+            var appConfigPath = assemblyPath + ".config";
             doc.Load(appConfigPath);
             return appConfigPath;
         }
 
+        protected override void OnAfterInstall(IDictionary savedState)
+        {
+            base.OnAfterInstall(savedState);
+            using (var sc = new ServiceController(this.ServiceName))
+            {
+                sc.Start();
+            }
+        }
     }
 
     [RunInstaller(true)]
@@ -88,7 +115,7 @@ namespace mv_impinj
     {
         public ConnectorProccessInstaller()
         {
-            this.Account = ServiceAccount.NetworkService;           
+            this.Account = ServiceAccount.LocalSystem;           
         }
 
     }

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Configuration.Install;
 using System.ServiceProcess;
-using System.Xml;
+using Newtonsoft.Json;
 
 namespace mv_impinj
 {
@@ -36,9 +34,8 @@ namespace mv_impinj
                             console = true;
                             break;
                         case "-t":
-                            Report.Prefix = "urn:epc:";
-                            var d = new XmlMarshaller();
-                            Console.WriteLine(d.MarshallToReport("somelocation","sometagid"));
+                            var x = new AmqpRegistrationParams();
+                            Console.WriteLine(JsonConvert.SerializeObject(x));
                             return 0;
                         default:
                             Console.Error.WriteLine

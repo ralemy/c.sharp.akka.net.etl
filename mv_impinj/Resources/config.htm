@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<HEAD>
+    <Title>Impinj MobileView Connector Configuration</Title>
+    <link rel="stylesheet" href="/bootstrap.min.css" />
+</HEAD>
+<Body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://www.impinj.com" style="padding:0;">
+                <img alt="Brand" src="/logo.png" style="width: 100px;">
+            </a>
+        </div>
+        <h2 style="text-align: center; padding-left: 100px;">Connector Configuraton</h2>
+    </div>
+</nav>
+    <div Flash="true"></div>
+    <div class="container">
+        <form class="form-horizontal" method="POST" Action="/">
+            <div class="panel-group">
+                <div class="panel panel-default">
+                    <div class="panel-heading"> ItemSense Connection Options</div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <label for="ItemSenseUrl" class="col-xs-2 control-label">Server Url</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="absent" id="ItemSenseUrl" name="ItemSenseUrl">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ItemSenseUser" class="col-xs-2 control-label">Username</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="absent" id="ItemSenseUser" name="ItemSenseUser">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ItemSensePassword" class="col-xs-2 control-label">Password</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="absent" id="ItemSensePassword" name="ItemSensePassword">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MobileViewZoneMap" class="col-xs-2 control-label">Zone Map For Mobile View</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="absent" id="MobileViewZoneMap" name="MobileViewZoneMap">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading"> MobileView Connection Options</div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <label for="MobileViewBase" class="col-xs-2 control-label">Generic Gateway</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="absent" id="MobileViewBase" name="MobileViewBase">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="MobileViewPrefix" class="col-xs-2 control-label">Passive tag prefix</label>
+                            <div class="col-xs-10">
+                                <input class="form-control" type="text" value="absent" id="MobileViewPrefix" name="MobileViewPrefix">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="custom-control custom-checkbox col-xs-10 col-xs-offset-2">
+                                <input type="checkbox" class="custom-control-input" value="ignore" name="HttpsCertificates">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Ignore Https Certificate Verification</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">State Machine options</div>
+                    <div class="panel-body">
+                        <div class="form-group row">
+                            <label for="AmqpNoiseTimer" class="col-xs-2 control-label">Message Queue Noise Window </label>
+                            <div class="input-group col-xs-10" style="padding-right: 15px;">
+                                <input class="form-control" type="number" value="absent" id="AmqpNoiseTimer" name="AmqpNoiseTimer" step="500">
+                                <div class="input-group-addon" style="min-width: 110px;">Milliseconds</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="ReconcilerWindow" class="col-xs-2 control-label">Database Reconciliation Window </label>
+                            <div class="input-group col-xs-10" style="padding-right: 15px;">
+                                <input class="form-control" type="number" value="absent" id="ReconcilerWindow" name="ReconcilerWindow" >
+                                <div class="input-group-addon" style="min-width: 110px;">Seconds</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" value="Save Configuration" class="btn btn-primary pull-right" style="min-width: 150px;" />
+        </form>
+    </div>
+</Body>

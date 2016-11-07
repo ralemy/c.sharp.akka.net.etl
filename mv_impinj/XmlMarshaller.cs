@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace mv_impinj
@@ -59,8 +55,10 @@ namespace mv_impinj
         public string MarshallToLocations(List<string> names)
         {
             var writer = new StringWriter();
-            if(!names.Contains("ABSENT"))
+            if (!names.Contains("ABSENT"))
                 names.Add("ABSENT");
+            if (!names.Contains("FACILITY"))
+                names.Add("FACILITY");
             var locations = new Locations()
             {
                 Location = names.ToArray()

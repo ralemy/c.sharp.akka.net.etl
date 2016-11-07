@@ -20,7 +20,7 @@ namespace mv_impinj
             _amqpNoiseTimer = amqpNoiseTimer;
             _t = new Timer(ReportDelay, null, Timeout.Infinite, Timeout.Infinite);
             _tagReporter = Context.ActorSelection("/user/TagReporter");
-            Receive<AmqpMessageDetails>(message =>
+            Receive<AmqpMessage>(message =>
             {
                 switch (_state)
                 {
@@ -42,24 +42,15 @@ namespace mv_impinj
             {
                 if (!item.Zone.Equals(_location))
                 {
-                    Console.WriteLine($"{item.Epc} forced to {item.Zone} from {_location}, {_candidate}, {_state}");
                     if (!_state.Equals("Waiting"))
                         Cache(item);
                     else if (!item.Zone.Equals(_candidate))
                         Cache(item);
-                    else
-                    {
-                        Console.WriteLine($"{item.Epc} already waiting for {item.Zone}");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"{item.Epc} skipped forcing from {_location}");
                 }
             });
         }
 
-        private void HandleWaiting(AmqpMessageDetails message)
+        private void HandleWaiting(AmqpMessage message)
         {
             if (message.Zone.Equals(_candidate))
                 Report(message);
@@ -67,19 +58,19 @@ namespace mv_impinj
                 Cache(message);
         }
 
-        private void HandlePresent(AmqpMessageDetails message)
+        private void HandlePresent(AmqpMessage message)
         {
             if (!message.Zone.Equals(_location))
                 Cache(message);
         }
 
-        private void HandleAbsent(AmqpMessageDetails message)
+        private void HandleAbsent(AmqpMessage message)
         {
             if (!message.Zone.Equals("ABSENT"))
                 Report(message);
         }
 
-        private void HandleInitial(AmqpMessageDetails message)
+        private void HandleInitial(AmqpMessage message)
         {
             if (message.Zone.Equals("ABSENT"))
                 Report(message);
@@ -100,7 +91,7 @@ namespace mv_impinj
         {
             _candidate = message.Zone;
             _state = "Waiting";
-            _t.Change(this._amqpNoiseTimer, Timeout.Infinite);
+            _t.Change(_amqpNoiseTimer, Timeout.Infinite);
         }
 
         private void ReportDelay(object state)
@@ -111,11 +102,11 @@ namespace mv_impinj
             StopTimer();
         }
 
-        private AmqpMessageDetails MakeMessage(string candidate)
+        private AmqpMessage MakeMessage(string candidate)
         {
-            return new AmqpMessageDetails
+            return new AmqpMessage
             {
-                Epc = this._epc,
+                Epc = _epc,
                 Zone = candidate
             };
         }
@@ -126,9 +117,9 @@ namespace mv_impinj
             _t.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
-        public static Props props(string epc, int amqpNoiseTimer)
+        public static Props Props(string epc, int amqpNoiseTimer)
         {
-            return Props.Create<TagProcessor>(epc, amqpNoiseTimer);
+            return Akka.Actor.Props.Create<TagProcessor>(epc, amqpNoiseTimer);
         }
     }
 }

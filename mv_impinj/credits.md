@@ -8,4 +8,10 @@ http://stackoverflow.com/questions/22938128/vs2013-windows-service-how-to-make-i
 
 http://www.codeproject.com/Articles/12780/A-Setup-and-Deployment-project-that-passes-paramet
 
+Create a simple HttpListener for Config
+
+https://gist.github.com/aksakalli/9191056
+
+
+
 

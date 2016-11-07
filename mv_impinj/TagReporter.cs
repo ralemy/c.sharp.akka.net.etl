@@ -8,29 +8,30 @@ namespace mv_impinj
 {
     internal class TagReporter : ReceiveActor
     {
-        private readonly NameValueCollection _config;
         private readonly WebClient _client;
         private readonly UriBuilder _reportEndpoint;
         private readonly ActorSelection _logger;
         private readonly UriBuilder _zoneEndpoint;
         private readonly XmlMarshaller _marshaller;
+        private int _counter;
 
         public TagReporter(NameValueCollection appSettings)
         {
-            var nl = Environment.NewLine;
-            _config = appSettings;
             _client = new WebClient();
             _reportEndpoint = new UriBuilder(appSettings["MobileViewBase"] + appSettings["MobileViewReports"]);
             _zoneEndpoint = new UriBuilder(appSettings["MobileViewBase"] + appSettings["MobileViewLocations"]);
             _logger = Context.ActorSelection("/user/Logger");
             _marshaller = new XmlMarshaller();
+            _counter = 0;
+
             if (appSettings["HttpsCertificates"].Equals("ignore"))
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
 
-            Receive<AmqpMessageDetails>(
+            Receive<AmqpMessage>(
                 message =>
                 {
-                    var postData = _marshaller.MarshallToReport(message.Zone,message.Epc);
+                    var postData = _marshaller.MarshallToReport(message.Zone, message.Epc);
+                    _counter += 1;
                     ForwardToMobileView(postData, _reportEndpoint);
                 });
             Receive<ZoneMap>(
@@ -39,6 +40,7 @@ namespace mv_impinj
                     var payload = _marshaller.MarshallToLocations(zoneMap.Zones.Select(z => z.Name).ToList());
                     ForwardToMobileView(payload, _zoneEndpoint);
                 });
+            Receive<string>( message => Sender.Tell($"Current counter is {_counter}"));
         }
 
         protected override void PostStop()
@@ -64,9 +66,9 @@ namespace mv_impinj
             }
         }
 
-        public static Props props(NameValueCollection appSettings)
+        public static Props Props(NameValueCollection appSettings)
         {
-            return Props.Create<TagReporter>(appSettings);
+            return Akka.Actor.Props.Create<TagReporter>(appSettings);
         }
     }
 }
