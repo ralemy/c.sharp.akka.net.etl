@@ -125,7 +125,7 @@
     <value>..\Resources\config.htm;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
   <data name="FlashMsgTemplate" xml:space="preserve">
-    <value>&lt;div class='alert alert-success text-center'&gt; {0} &lt;form method='POST' action='/service/run'&gt;{1}&lt;/form&gt;&lt;/div&gt;</value>
+    <value>&lt;div class='alert {2} text-center'&gt; {0} &lt;form method='POST' action='/service/run'&gt;{1}&lt;/form&gt;&lt;/div&gt;</value>
   </data>
   <data name="logo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\logo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

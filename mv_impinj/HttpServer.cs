@@ -97,8 +97,16 @@ namespace mv_impinj
                 ServeFiles(c);
             else if (request.Url.AbsolutePath.EndsWith("/service/run"))
             {
-                if (!_connectorService.IsRunning)
-                    _connectorService.Run(AppSettings);
+                try
+                {
+                    if (!_connectorService.IsRunning)
+                        _connectorService.Run(AppSettings);
+                }
+                catch (Exception e)
+                {
+                    _connectorService.IsRunning = false;
+                    _configPage.SetConfigResult(e.Message + " Check Itemsense options.",false);
+                }
                 RedirectToIndex(c);
             }
             else

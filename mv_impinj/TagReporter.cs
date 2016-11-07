@@ -14,6 +14,7 @@ namespace mv_impinj
         private readonly UriBuilder _zoneEndpoint;
         private readonly XmlMarshaller _marshaller;
         private int _counter;
+        private string _statusMessage;
 
         public TagReporter(NameValueCollection appSettings)
         {
@@ -23,6 +24,7 @@ namespace mv_impinj
             _logger = Context.ActorSelection("/user/Logger");
             _marshaller = new XmlMarshaller();
             _counter = 0;
+            _statusMessage = "Current Counter is {0}";
 
             if (appSettings["HttpsCertificates"].Equals("ignore"))
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
@@ -40,7 +42,7 @@ namespace mv_impinj
                     var payload = _marshaller.MarshallToLocations(zoneMap.Zones.Select(z => z.Name).ToList());
                     ForwardToMobileView(payload, _zoneEndpoint);
                 });
-            Receive<string>( message => Sender.Tell($"Current counter is {_counter}"));
+            Receive<string>( message => Sender.Tell(String.Format(_statusMessage,_counter)));
         }
 
         protected override void PostStop()
@@ -62,6 +64,7 @@ namespace mv_impinj
             }
             catch (WebException e)
             {
+                _statusMessage = e.Message;
                 _logger.Tell(e);
             }
         }

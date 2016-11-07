@@ -65,7 +65,7 @@ namespace mv_impinj.Properties {
         /// * Bootstrap v3.3.7 (http://getbootstrap.com)
         /// * Copyright 2011-2016 Twitter, Inc.
         /// * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-        /// *//*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:b [rest of string was truncated]&quot;;.
+        /// *//*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */html{font-family:sans-serif;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-ali [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string bootstrap_min {
             get {
@@ -96,7 +96,7 @@ namespace mv_impinj.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;div class=&apos;alert alert-success text-center&apos;&gt; {0} &lt;form method=&apos;POST&apos; action=&apos;/service/run&apos;&gt;{1}&lt;/form&gt;&lt;/div&gt;.
+        ///   Looks up a localized string similar to &lt;div class=&apos;alert {2} text-center&apos;&gt; {0} &lt;form method=&apos;POST&apos; action=&apos;/service/run&apos;&gt;{1}&lt;/form&gt;&lt;/div&gt;.
         /// </summary>
         internal static string FlashMsgTemplate {
             get {

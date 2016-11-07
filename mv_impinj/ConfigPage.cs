@@ -36,7 +36,8 @@ namespace mv_impinj
                     .First(n => !n.GetAttributeValue("Flash", "none").Equals("none"))
                     .InnerHtml = String.Format(Properties.Resources.FlashMsgTemplate,
                     _server.FlashMessage,
-                    _server.ConfigSaved ? Properties.Resources.RunButton : "");
+                    _server.ConfigSaved ? Properties.Resources.RunButton : "" ,
+                    _server.ConfigSaved ? "alert-success" : "alert-warning");
             _server.FlashMessage = "";
         }
 
@@ -75,16 +76,20 @@ namespace mv_impinj
                     _server.AppSettings[key] = settings[key].Value;
                 }
                 config.Save(ConfigurationSaveMode.Full);
-                _server.FlashMessage = "Configuration Saved";
-                _server.ConfigSaved = true;
+                SetConfigResult("Configuration Saved", true);
             }
             catch (Exception e)
             {
-                _server.FlashMessage = e.Message;
+                SetConfigResult(e.Message,false);
             }
             _server.RedirectToIndex(c);
         }
 
+        public void SetConfigResult(string message, bool result)
+        {
+            _server.FlashMessage = message;
+            _server.ConfigSaved = result;
+        }
 
 
     }
