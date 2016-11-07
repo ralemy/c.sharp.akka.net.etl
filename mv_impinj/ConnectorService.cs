@@ -51,17 +51,28 @@ namespace mv_impinj
 
         public string GetReport(string key)
         {
-            switch (key)
+            try
             {
-                case "ItemSenseReceived":
-                    return _itemSense.ReceivedMessages.ToString();
-                case "ItemSenseReconRun":
-                    return _itemSense.ReconcileRuns.ToString();
-                case "MobileViewReports":
-                    _inbox.Send(_actorSystem.Reporter,"status");
-                    return (string) _inbox.Receive(TimeSpan.FromSeconds(30));
-                default:
-                    return $"No report available for {key}";
+                switch (key)
+                {
+                    case "ItemSenseReceived":
+                        return _itemSense.ReceivedMessages.ToString();
+                    case "ItemSenseReconRun":
+                        return _itemSense.ReconcileRuns.ToString();
+                    case "MobileViewReported":
+                        _inbox.Send(_actorSystem.Reporter, "status");
+                        return (string) _inbox.Receive(TimeSpan.FromSeconds(5));
+                    default:
+                        return $"No report available for {key}";
+                }
+            }
+            catch (System.TimeoutException e)
+            {
+                return "Reporter is not responding. check connection to Mobile View";
+            }
+            catch (Exception e)
+            {
+                return e.GetType().AssemblyQualifiedName;
             }
         }
 

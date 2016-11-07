@@ -21,11 +21,12 @@
             xmlHttp.send();
         }
         function getReportData() {
+            refreshData();
             setInterval(refreshData, 10000);
         }
     </script>
 </HEAD>
-<Body onload="refreshData();">
+<Body onload="getReportData();">
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -37,8 +38,8 @@
         </div>
     </nav>
     <div Flash="true"></div>
+    <div class="alert alert-warning"> To change the configuration, restart the connector service in the Administration Tools of Control Panel</div>
     <div class="container">
-
         <div class="panel-group" id="reportPanels">
             <div class="panel panel-default">
                 <div class="panel-heading"> ItemSense Information</div>
@@ -61,11 +62,10 @@
                         <tr><th>Generic Gateway endpoint</th><td id="MobileViewBase"></td></tr>
                         <tr><th>Passive Tag Prefix</th><td id="MobileViewPrefix"></td></tr>
                         <tr><th>Https Certificate Verification</th><td id="HttpsCertificates"></td></tr>
-                        <tr><th>Messages sent to MobileView</th><td id="MobileViewReports"></td></tr>
+                        <tr><th>Messages sent to MobileView</th><td id="MobileViewReported"></td></tr>
                     </table>
                 </div>
             </div>
-            <div class="alert alert-warning"> To change the configuration, restart the connector service in the Administration Tools of Control Panel</div>
         </div>
     </div>
 </Body>

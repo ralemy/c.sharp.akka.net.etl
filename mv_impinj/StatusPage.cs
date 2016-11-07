@@ -47,12 +47,15 @@ namespace mv_impinj
             }
         }
 
-       public void ServeStats(HttpListenerContext c)
+        public void ServeStats(HttpListenerContext c)
         {
             if (!_server.IsConnectorRunning())
-                _server.RedirectToIndex(c);
-            var keys = new List<string>() { "ItemSenseReceived", "ItemSenseReconRun", "MobileViewReports" };
-            var response = keys.Aggregate("", (acc, k) => $", \"{k}\":\"{_server.GetReport(k)}\"");
+            {
+                _server.SendResponse(c.Response, "{}", "application/json");
+                return;
+            }
+            var keys = new List<string>() { "ItemSenseReceived", "ItemSenseReconRun", "MobileViewReported" };
+            var response = keys.Aggregate("", (acc, k) => acc + $@", ""{k}"" : ""{_server.GetReport(k)}"" ");
             _server.SendResponse(c.Response, "{" + response.Substring(1) + "}", "application/json");
         }
 

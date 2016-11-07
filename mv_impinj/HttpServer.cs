@@ -98,7 +98,7 @@ namespace mv_impinj
                 ServeFiles(c);
             else if (request.Url.AbsolutePath.EndsWith("/service/run"))
             {
-                if(!_connectorService.IsRunning)
+                if (!_connectorService.IsRunning)
                     _connectorService.Run(AppSettings);
                 RedirectToIndex(c);
             }
@@ -113,7 +113,7 @@ namespace mv_impinj
                 SendResponse(c.Response, Properties.Resources.bootstrap_min, "text/css");
             else if (path.EndsWith("/logo.png"))
                 SendResponse(c.Response, Properties.Resources.logo, ImageFormat.Png);
-            else if(path.EndsWith("/report"))
+            else if (path.EndsWith("/report"))
                 _statusPage.ServeStats(c);
             else
                 ServeIndex(c);
@@ -122,7 +122,8 @@ namespace mv_impinj
 
         public void RedirectToIndex(HttpListenerContext c)
         {
-           c.Response.Redirect("/");
+            c.Response.Redirect("/");
+            c.Response.Close();
         }
 
 
