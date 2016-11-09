@@ -19,8 +19,8 @@ namespace mv_impinj
         public TagReporter(NameValueCollection appSettings)
         {
             _client = new WebClient();
-            _reportEndpoint = new UriBuilder(appSettings["MobileViewBase"] + appSettings["MobileViewReports"]);
-            _zoneEndpoint = new UriBuilder(appSettings["MobileViewBase"] + appSettings["MobileViewLocations"]);
+            _reportEndpoint = new UriBuilder(appSettings["TargetBase"] + appSettings["TargetReports"]);
+            _zoneEndpoint = new UriBuilder(appSettings["TargetBase"] + appSettings["TargetLocations"]);
             _logger = Context.ActorSelection("/user/Logger");
             _marshaller = new XmlMarshaller();
             _counter = 0;
@@ -34,13 +34,13 @@ namespace mv_impinj
                 {
                     var postData = _marshaller.MarshallToReport(message.Zone, message.Epc);
                     _counter += 1;
-                    ForwardToMobileView(postData, _reportEndpoint);
+                    ForwardToTarget(postData, _reportEndpoint);
                 });
             Receive<ZoneMap>(
                 zoneMap =>
                 {
                     var payload = _marshaller.MarshallToLocations(zoneMap.Zones.Select(z => z.Name).ToList());
-                    ForwardToMobileView(payload, _zoneEndpoint);
+                    ForwardToTarget(payload, _zoneEndpoint);
                 });
             Receive<string>( message => Sender.Tell(String.Format(_statusMessage,_counter)));
         }
@@ -53,7 +53,7 @@ namespace mv_impinj
             }
         }
 
-        private void ForwardToMobileView(string postData, UriBuilder endpoint)
+        private void ForwardToTarget(string postData, UriBuilder endpoint)
         {
             try
             {

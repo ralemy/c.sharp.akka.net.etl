@@ -78,7 +78,7 @@ namespace mv_impinj
                 Cache(message);
         }
 
-        private void Report(IMobileViewReportable message)
+        private void Report(ITargetReportable message)
         {
             var newState = message.Zone.Equals("ABSENT") ? "Absent" : "Present";
             _location = message.Zone;
@@ -87,7 +87,7 @@ namespace mv_impinj
             _tagReporter.Tell(message, ActorRefs.NoSender);
         }
 
-        private void Cache(IMobileViewReportable message)
+        private void Cache(ITargetReportable message)
         {
             _candidate = message.Zone;
             _state = "Waiting";

@@ -40,11 +40,11 @@ namespace mv_impinj
         {
             if (IsRunning) return;
             IsRunning = true;
-            Report.Prefix = appSettings["MobileViewPrefix"];
+            Report.Prefix = appSettings["TargetPrefix"];
             _actorSystem = new ConnectorActors("PI2MV", appSettings, _eventLog);
             _itemSense = new ItemSenseProxy(appSettings);
             _inbox = Inbox.Create(_actorSystem.System);
-            _actorSystem.ReportZoneMap(_itemSense.GetZoneMap(appSettings["MobileViewZoneMap"]));
+            _actorSystem.ReportZoneMap(_itemSense.GetZoneMap(appSettings["TargetZoneMap"]));
             _itemSense.ConsumeQueue(new AmqpRegistrationParams(),_actorSystem.ProcessAmqp());
             _actorSystem.StartReconciliation(fromTime => _itemSense.GetRecentItems(fromTime));
         }
@@ -59,7 +59,7 @@ namespace mv_impinj
                         return _itemSense.ReceivedMessages.ToString();
                     case "ItemSenseReconRun":
                         return _itemSense.ReconcileRuns.ToString();
-                    case "MobileViewReported":
+                    case "TargetReported":
                         _inbox.Send(_actorSystem.Reporter, "status");
                         return (string) _inbox.Receive(TimeSpan.FromSeconds(5));
                     default:
@@ -68,7 +68,7 @@ namespace mv_impinj
             }
             catch (System.TimeoutException)
             {
-                return "Reporter is not responding. check connection to Mobile View ";
+                return "Reporter is not responding. check connection to Target ";
             }
             catch (Exception e)
             {

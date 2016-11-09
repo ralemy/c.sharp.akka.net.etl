@@ -16,7 +16,7 @@ namespace mv_impinj
         public TagBroker(int amqpNoiseTimer)
         {
             _noiseTimer = amqpNoiseTimer;
-            var processor = new Action<IMobileViewReportable>(m => GetEpcProcessor(m.Epc).Tell(m, ActorRefs.NoSender));
+            var processor = new Action<ITargetReportable>(m => GetEpcProcessor(m.Epc).Tell(m, ActorRefs.NoSender));
 
             Receive<AmqpMessage>(processor);
             Receive<List<ImpinjItem>>(message => message.ForEach(m => processor(m)));

@@ -32,9 +32,9 @@
             // 
             // connectorInstaller1
             // 
-            this.connectorInstaller1.Description = "Connector Service to send RAIN RFID data from Impinj platform to MobileView Gener" +
+            this.connectorInstaller1.Description = "Connector Service to send RAIN RFID data from Impinj platform to Target Gener" +
     "ic Gateway";
-            this.connectorInstaller1.DisplayName = "MobileView Impinj Connector";
+            this.connectorInstaller1.DisplayName = "Target Impinj Connector";
             this.connectorInstaller1.ServiceName = "mv_impinj_connector";
             // 
             // ConnectorService

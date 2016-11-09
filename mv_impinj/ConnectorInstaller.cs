@@ -18,8 +18,8 @@ namespace mv_impinj
         public ConnectorInstaller()
         {
             this.Description =
-                "Connector Service to send RAIN RFID data from Impinj platform to MobileView Generic Gateway";
-            this.DisplayName = "Impinj Connector for MobileView";
+                "Connector Service to send RAIN RFID data from Impinj platform to Target Generic Gateway";
+            this.DisplayName = "Impinj Connector for Target";
             this.ServiceName = "mv_impinj_connector";
             this.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
         }

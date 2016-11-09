@@ -54,12 +54,12 @@ namespace mv_impinj
         [JsonProperty("queue")]
         public string Queue { get; set; }
     }
-    public interface IMobileViewReportable
+    public interface ITargetReportable
     {
         string Epc { get; set; }
         string Zone { get; set; }
     }
-    public class AmqpMessage : IMobileViewReportable
+    public class AmqpMessage : ITargetReportable
     {
         [JsonProperty("epc")]
         public string Epc { get; set; }
@@ -69,7 +69,7 @@ namespace mv_impinj
 
 
     //GET Items
-    public class ImpinjItem : IMobileViewReportable
+    public class ImpinjItem : ITargetReportable
     {
         [JsonProperty("epc")]
         public string Epc { get; set; }

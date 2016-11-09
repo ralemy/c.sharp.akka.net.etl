@@ -76,7 +76,7 @@ namespace mv_impinj.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;HEAD&gt;
-        ///    &lt;Title&gt;Impinj MobileView Connector Configuration&lt;/Title&gt;
+        ///    &lt;Title&gt;Impinj Target Connector Configuration&lt;/Title&gt;
         ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap.min.css&quot; /&gt;
         ///&lt;/HEAD&gt;
         ///&lt;Body&gt;
@@ -126,7 +126,7 @@ namespace mv_impinj.Properties {
         /// <summary>
         ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
         ///&lt;HEAD&gt;
-        ///    &lt;Title&gt;Impinj MobileView Connector Status&lt;/Title&gt;
+        ///    &lt;Title&gt;Impinj Target Connector Status&lt;/Title&gt;
         ///    &lt;link rel=&quot;stylesheet&quot; href=&quot;/bootstrap.min.css&quot; /&gt;
         ///    &lt;script type=&quot;text/javascript&quot;&gt;
         ///        function replaceData(obj) {

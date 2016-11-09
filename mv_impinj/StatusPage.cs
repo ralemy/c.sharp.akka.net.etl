@@ -54,7 +54,7 @@ namespace mv_impinj
                 _server.SendResponse(c.Response, "{}", "application/json");
                 return;
             }
-            var keys = new List<string>() { "ItemSenseReceived", "ItemSenseReconRun", "MobileViewReported" };
+            var keys = new List<string>() { "ItemSenseReceived", "ItemSenseReconRun", "TargetReported" };
             var response = keys.Aggregate("", (acc, k) => acc + $@", ""{k}"" : ""{_server.GetReport(k)}"" ");
             _server.SendResponse(c.Response, "{" + response.Substring(1) + "}", "application/json");
         }
