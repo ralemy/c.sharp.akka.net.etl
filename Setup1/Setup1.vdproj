@@ -886,6 +886,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
     }
@@ -2929,7 +2937,7 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:Impinj Connector for Mobile View"
+        "ProductName" = "8:Impinj Connector for XML Target"
         "ProductCode" = "8:{CE69E39A-92CD-4C19-B2A3-F4D566E7D82C}"
         "PackageCode" = "8:{8A7A8F6F-0B81-4D5A-B679-7D2F8B7C4637}"
         "UpgradeCode" = "8:{2B6EBEC4-4B66-4A7A-84CD-78182B403DFA}"
@@ -2942,11 +2950,11 @@
         "Manufacturer" = "8:Impinj"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:Connector Service between Impinj and MobileView"
+        "Title" = "8:Connector Service between Impinj and XML Target"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Reza Alemy"
         "Keywords" = "8:"
-        "ARPCOMMENTS" = "8:Connector Service for feeding Impinj platform data to MobileView"
+        "ARPCOMMENTS" = "8:Connector Service for feeding Impinj platform data to XML Target"
         "ARPURLINFOABOUT" = "8:http://www.impinj.com"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
